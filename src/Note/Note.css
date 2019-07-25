@@ -1,0 +1,9 @@
+.Note{
+    display: block;
+    width: 100%;
+    border: 1px solid black;
+    
+}
+.Note::after {
+    padding: 10px;
+}

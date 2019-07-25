@@ -1,0 +1,20 @@
+.folder-list{
+    
+  padding: 10px;
+    
+}
+
+.folders{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.folders ul{
+  list-style: none;
+}
+
+.active{
+  color:red;
+}

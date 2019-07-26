@@ -7,7 +7,7 @@ function FolderList(props){
     
     const folderList = props.folders.map(folder => <NavLink activeClassName="active" to={`/folder/${folder.id}`}><li className="folder" key={folder.id}>{folder.name}</li></NavLink>);
     
-    const goBackButton = props.notePage === "true" ? <Link to={() => props.history.goBack()}>Go Back</Link> : null;
+    const goBackButton = props.notePage === "true" ? <input type='button'  value="Go Back" onClick={()=>props.history.goBack()}/> : null;
     
     return(
         <div className="folder-list">

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Link} from 'react-router-dom';
 import NoteContext from '../NoteContext'
 import './Note.css';
+import Moment from 'moment';
+import PropTypes from 'prop-types';
 
+class Note extends Component{
 
-function deleteNote(noteId, callback){
+static contextType = NoteContext;
+
+deleteNote = (noteId, callback) => {
  
   const deleteUrl = `http://localhost:9090/notes/${noteId}`;
     fetch(deleteUrl,{
@@ -22,26 +27,39 @@ function deleteNote(noteId, callback){
     })
     .then(data =>{
         
-        callback(noteId)
+        callback(noteId);
+        //this.props.history.push('/');
+        
     })
-    .catch(error => this.setState({error}))
+    .catch(error => console.log(error));
 }
 
 
-function Note(props){
+
+
+render(){
+
+    const {Title, Id, Modified} = this.props;
+    
     return(
-        <NoteContext.Consumer>
-            {(context)=>(
+        
         <div className="Note">
-            <Link to={`/note/${props.Id}`}><h2>{props.Title}</h2></Link>
-            <p>Date modified on {props.Modified}</p>
+            <Link to={`/note/${Id}`}><h2>{Title}</h2></Link>
+            <p>Date modified on {Moment(Modified).format('do MMM YYYY')}</p>
             <button onClick={() =>{
-                deleteNote(props.Id,context.deleteNote)
+                this.deleteNote(Id,this.context.deleteNote);
             }}>Delete</button>
         </div>
-        )}
-        </NoteContext.Consumer>
+        
     );
+
 }
+}
+
+Note.propTypes = {
+    Title: PropTypes.string.isRequired,
+    Id: PropTypes.string.isRequired,
+    Modified: PropTypes.string,
+};
 
 export default Note;

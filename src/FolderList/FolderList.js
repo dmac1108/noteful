@@ -1,37 +1,33 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 import './FolderList.css';
+import '../AddFolder/AddFolder';
 import NoteContext from '../NoteContext';
+import PropTypes from 'prop-types';
 
 
 
 class FolderList extends Component{    
    static contextType = NoteContext;
     getFolder(noteId){
-        const note = this.context.notes.filter(note => note.id === noteId);
-        console.log(note)
-        const folderId = note[0].folderId;
-        console.log(folderId)
+        const note = this.context.notes.find(note => note.id === noteId) || {content: ''};
+        const folderId = note.folderId;
         return folderId
     }
    
     render(){
     
-    
-     
-    
     const folderId = (!this.props.match.params.noteId) ? null : this.getFolder(this.props.match.params.noteId);
-    console.log(folderId);
 
     const folders = (!folderId)? this.context.folders :
     this.context.folders.filter(folder => folder.id === folderId);
     
-       
-    const folderList = folders.map(folder => <NavLink activeClassName="active" to={`/folder/${folder.id}`}><li  className="folder" key={folder.id} data-index={folder.id}>{folder.name}</li></NavLink>);
-    
-    
+     
+    const folderList = folders.map(folder => <NavLink key={folder.id} activeClassName="active" to={`/folder/${folder.id}`}><li  className="folder" key={folder.id} data-index={folder.id}>{folder.name}</li></NavLink>);
     
     const goBackButton = (!this.props.match.params.noteId) ? null: <input type='button'  value="Go Back" onClick={()=>this.props.history.goBack()}/>;
+
+    
     
     return(
         <div className="folder-list">
@@ -41,6 +37,7 @@ class FolderList extends Component{
                 <ul>
             {folderList}
             </ul>
+            {(!this.props.match.params.noteId) ?  <Link to="/NewFolder">Add Folder</Link>: <></>}
             </div>
         </div>
     );
@@ -49,7 +46,17 @@ class FolderList extends Component{
 
 FolderList.defaultProps ={
     folders: [],
-    notePage: false
 };
+
+FolderList.propTypes ={
+    folders: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+    })),
+    notes: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        folderId: PropTypes.string.isRequired,
+      }))
+}
 
 export default FolderList;

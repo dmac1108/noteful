@@ -19,7 +19,6 @@ deleteNote = (noteId, callback) => {
         },
     })
     .then(res => {
-        console.log(res)
       if(!res.ok) {
         throw new Error(res.status)
       }
@@ -28,7 +27,8 @@ deleteNote = (noteId, callback) => {
     .then(data =>{
         
         callback(noteId);
-        //this.props.history.push('/');
+       
+        
         
     })
     .catch(error => console.log(error));

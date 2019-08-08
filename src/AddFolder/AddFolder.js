@@ -35,7 +35,7 @@ handleSubmit = (e) => {
         body: JSON.stringify(this.state),
     })
     .then(res => {
-        console.log(res)
+        
       if(!res.ok) {
         throw new Error(res.status)
       }

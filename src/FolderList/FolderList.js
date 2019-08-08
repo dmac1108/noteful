@@ -12,18 +12,20 @@ class FolderList extends Component{
     getFolder(noteId){
         const note = this.context.notes.find(note => note.id === noteId) || {content: ''};
         const folderId = note.folderId;
+        
+        
         return folderId
     }
    
     render(){
     
     const folderId = (!this.props.match.params.noteId) ? null : this.getFolder(this.props.match.params.noteId);
-
+    
     const folders = (!folderId)? this.context.folders :
     this.context.folders.filter(folder => folder.id === folderId);
     
      
-    const folderList = folders.map(folder => <NavLink key={folder.id} activeClassName="active" to={`/folder/${folder.id}`}><li  className="folder" key={folder.id} data-index={folder.id}>{folder.name}</li></NavLink>);
+    const folderList = folders.map(folder => <li  className="folder" key={folder.id} data-index={folder.id}><NavLink key={folder.id} activeClassName="active" to={`/folder/${folder.id}`}>{folder.name}</NavLink></li>);
     
     const goBackButton = (!this.props.match.params.noteId) ? null: <input type='button'  value="Go Back" onClick={()=>this.props.history.goBack()}/>;
 

@@ -9,6 +9,6 @@ export default function FormValidationError(props){
 }
 
 FormValidationError.propTypes = {
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string,
 }
 

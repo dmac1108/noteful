@@ -11,11 +11,11 @@ class NotePage extends Component{
     
     render(){
         const note = this.context.notes.find(note => note.id === this.props.match.params.noteId) || {content: ''};
-     
+        
     return(
         
         <div>
-            <Note Id={note.id} Title={note.name} Modified={note.modified}></Note>
+            <Note Id={note.id} Title={note.name} Modified={note.modified} ></Note>
             <article>{note.content}</article>
         </div>
     

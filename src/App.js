@@ -8,6 +8,7 @@ import NoteContext from './NoteContext';
 import AddFolder from './AddFolder/AddFolder';
 import AddNote from './AddNote/AddNote';
 import ErrorBoundary from './ErrorBoundary/ErroBoundary';
+import { withRouter } from "react-router-dom";
 
 
 class App extends Component{
@@ -16,6 +17,7 @@ class App extends Component{
     folders: [],
     notes: [], 
     error: null,
+    
   }
 
   setData = data =>{
@@ -46,12 +48,13 @@ class App extends Component{
 
   deleteNote = NoteId => {
     const newNotes = this.state.notes.filter(note => note.id !== NoteId);
-    console.log(newNotes);
     this.setState({
       notes: newNotes
     });
-    
+    this.props.history.goBack();
   }
+
+  
   
   componentDidMount(){
     const url = "http://localhost:9090/db";
@@ -66,8 +69,6 @@ class App extends Component{
     .catch(error => console.log(error))
   }
 
-
-
   render(){
     
     const contextValue = {
@@ -76,24 +77,26 @@ class App extends Component{
       deleteNote: this.deleteNote,
       addFolder: this.addFolder,
       addNote: this.addNote,
-
+      
     }
     
     return(
       <div>
+      <header>
       <Link to='/'><h1>Noteful</h1></Link>
+      </header> 
       <NoteContext.Provider value={contextValue}>
-        
+       
       <div className="lists">
       <ErrorBoundary>
-      <div>
+      <nav>
         {/*<Route exact path='/' component={FolderList}/>*/}
         <Route exact path='/' component={FolderList}/>
         <Route path='/folder/:folderId' component={FolderList}/>
         <Route path='/note/:noteId' component={FolderList}/>
         <Route path='/newfolder' component={AddFolder}/>
         
-      </div>
+      </nav>
       </ErrorBoundary>  
       <ErrorBoundary>
       <main>
@@ -112,4 +115,4 @@ class App extends Component{
   }
 }
 
-export default App;
+export default withRouter(App);

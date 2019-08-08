@@ -12,7 +12,7 @@ class AddNote extends Component {
            id: '',
            name: '',
            modified: '',
-           folderId: '',
+           folderId: 'b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1',
            content: '',
        };
    }
@@ -42,15 +42,6 @@ class AddNote extends Component {
         this.props.history.push('/');
     }
 
-
-    validateFolderSelection(){
-        console.log(this.state.folderId);
-        if(this.state.folderId === ''){
-            console.log("no folder");
-            return "Please select a folder";
-        }
-    }
-
     validateNoteLength(){
         if(this.state.name.trim().length < 1)
         {
@@ -69,7 +60,6 @@ handleSubmit = (e) => {
         body: JSON.stringify(this.state),
     })
     .then(res => {
-        console.log(res)
       if(!res.ok) {
         throw new Error(res.status)
       }
@@ -87,31 +77,32 @@ handleSubmit = (e) => {
   
 
     render(){
-        const options = this.context.folders.map(folder => <option value={folder.id}>{folder.name}</option>)
+        const options = this.context.folders.map(folder => <option key={folder.Id} value={folder.id}>{folder.name}</option>)
         //Add a Select Value option to the beginning of the options arry
-        const selectOptions = [<option value=""></option>, ...options];
-        console.log(selectOptions);
+        
+        
 
         return(
             <form id="noteInput" className="new-note" onSubmit={this.handleSubmit}>
                 <div className="input-group">
                     <label htmlFor="name">Note Name:</label>
-                    <input type="text" name="name" id="name" onChange={(e)=>this.onNameChange(e.target.value)} />
+                    <input type="text" name="name" id="name" onChange={(e)=>this.onNameChange(e.target.value)}
+                    aria-required="true" aria-label="Enter the Note Name" aria-describedby="nameValidation" />
                 </div>
-                <div className="validation"><FormValidationError message={this.validateNoteLength()}/></div>
+                <div id="nameValidation" className="validation"><FormValidationError message={this.validateNoteLength()}/></div>
                 <div className="input-group">
                     <label htmlFor="folder">Folder:</label>
-                    <select id="folder" onChange={(e)=>this.onFolderChange(e.target.value)}>
-                        {selectOptions}
+                    <select id="folder" onChange={(e)=>this.onFolderChange(e.target.value)} aria-required="true" aria-label="Select the Folder for the Note" >
+                        {options}
                     </select>
                 </div>
-                <div className="validation"><FormValidationError message={this.validateFolderSelection()}/></div>
+                
                 <div className="input-group">
                     <label htmlFor="content">Content:</label>
                     <textarea form="noteInput" name="content" id="content" rows="5" onChange={(e)=>this.onContentChange(e.target.value)}/>
                 </div>
                 <div>
-                    <button type="submit" disabled={this.validateFolderSelection() || this.validateNoteLength()}>Submit</button>
+                    <button type="submit" disabled={this.validateNoteLength()}>Submit</button>
                     <button type="reset" onClick={this.handleCancel}>Cancel</button>
                 </div>
             </form>

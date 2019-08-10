@@ -51,7 +51,7 @@ class App extends Component{
     this.setState({
       notes: newNotes
     });
-    this.props.history.goBack();
+    this.props.history.push('/');
   }
 
   

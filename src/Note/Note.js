@@ -40,12 +40,11 @@ deleteNote = (noteId, callback) => {
 render(){
 
     const {Title, Id, Modified} = this.props;
-    
     return(
         
         <div className="Note">
             <Link to={`/note/${Id}`}><h2>{Title}</h2></Link>
-            <p>Date modified on {Moment(Modified).format('do MMM YYYY')}</p>
+            <p>Date modified on {Moment(Modified).format('Do MMM YYYY')}</p>
             <button onClick={() =>{
                 this.deleteNote(Id,this.context.deleteNote);
             }}>Delete</button>

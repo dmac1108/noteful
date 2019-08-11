@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import NoteContext from '../NoteContext';
 import './AddNote.css';
 import FormValidationError from '../FormValidationError/FormValidationError';
-
+import Moment from 'moment';
 
 
 class AddNote extends Component {
@@ -11,7 +11,7 @@ class AddNote extends Component {
        this.state={
            id: '',
            name: '',
-           modified: '',
+           modified:  Moment(new Date()).format,
            folderId: 'b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1',
            content: '',
        };
@@ -77,11 +77,8 @@ handleSubmit = (e) => {
   
 
     render(){
-        const options = this.context.folders.map(folder => <option key={folder.Id} value={folder.id}>{folder.name}</option>)
-        //Add a Select Value option to the beginning of the options arry
+        const options = this.context.folders.map(folder => <option key={folder.id} value={folder.id}>{folder.name}</option>)
         
-        
-
         return(
             <form id="noteInput" className="new-note" onSubmit={this.handleSubmit}>
                 <div className="input-group">

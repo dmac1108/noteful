@@ -21,7 +21,6 @@ class NoteList extends Component {
   const { notes=[]} = this.context
   
   const filteredNotes = (!folderId) ? notes : notes.filter(note => note.folderId === folderId);
- 
   
   const notelist = filteredNotes.map(note => <li key={note.id}><Note Id={note.id} Folder={note.folderId} Title={note.name} Modified={note.modified} Content={note.content}/></li>)  ;
   return(

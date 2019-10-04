@@ -4,14 +4,14 @@ import NoteContext from '../NoteContext'
 import './Note.css';
 import Moment from 'moment';
 import PropTypes from 'prop-types';
+import config from '../config';
 
 class Note extends Component{
 
 static contextType = NoteContext;
 
 deleteNote = (noteId, callback) => {
- 
-  const deleteUrl = `http://localhost:9090/notes/${noteId}`;
+  const deleteUrl = `${config.API_ENDPOINT}/notes/${noteId}`;
     fetch(deleteUrl,{
         method: 'DELETE',
         headers: {
@@ -22,14 +22,10 @@ deleteNote = (noteId, callback) => {
       if(!res.ok) {
         throw new Error(res.status)
       }
-      return res.json()
-    })
-    .then(data =>{
-        
-        callback(noteId);
-       
-        
-        
+      else {
+       console.log(callback)
+        callback(noteId)
+      }
     })
     .catch(error => console.log(error));
 }

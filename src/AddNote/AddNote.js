@@ -3,6 +3,7 @@ import NoteContext from '../NoteContext';
 import './AddNote.css';
 import FormValidationError from '../FormValidationError/FormValidationError';
 import Moment from 'moment';
+import config from '../config';
 
 
 class AddNote extends Component {
@@ -12,7 +13,7 @@ class AddNote extends Component {
            id: '',
            name: '',
            modified:  Moment(new Date()).format,
-           folderId: 'b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1',
+           folderid: '',
            content: '',
        };
    }
@@ -26,9 +27,10 @@ class AddNote extends Component {
         });
     }
 
-    onFolderChange(folderId){
+    onFolderChange(folderid){
+        console.log(folderid)
         this.setState({
-            folderId
+            folderid
         });
     }
 
@@ -51,7 +53,7 @@ class AddNote extends Component {
 
 handleSubmit = (e) => {
     e.preventDefault();
-    const postUrl = 'http://localhost:9090/notes';
+    const postUrl = `${config.API_ENDPOINT}/notes`;
     fetch(postUrl,{
         method: 'POST',
         headers: {
@@ -89,7 +91,8 @@ handleSubmit = (e) => {
                 <div id="nameValidation" className="validation"><FormValidationError message={this.validateNoteLength()}/></div>
                 <div className="input-group">
                     <label htmlFor="folder">Folder:</label>
-                    <select id="folder" onChange={(e)=>this.onFolderChange(e.target.value)} aria-required="true" aria-label="Select the Folder for the Note" >
+                    <select id="folder" onChange={(e)=>this.onFolderChange(e.target.value)} aria-required="true" aria-label="Select the Folder for the Note" value={this.state.folderid} defaultValue={'DEFAULT'}>
+                        <option value="DEFAULT">Choose a folder</option>
                         {options}
                     </select>
                 </div>

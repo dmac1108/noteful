@@ -10,7 +10,7 @@ class NotePage extends Component{
     static contextType = NoteContext;
     
     render(){
-        const note = this.context.notes.find(note => note.id === this.props.match.params.noteId) || {content: ''};
+        const note = this.context.notes.find(note => note.id == this.props.match.params.noteId) || {content: ''};
         
     return(
         

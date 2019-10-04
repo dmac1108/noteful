@@ -9,7 +9,7 @@ import AddFolder from './AddFolder/AddFolder';
 import AddNote from './AddNote/AddNote';
 import ErrorBoundary from './ErrorBoundary/ErroBoundary';
 import { withRouter } from "react-router-dom";
-
+import config from './config'
 
 class App extends Component{
 
@@ -47,6 +47,8 @@ class App extends Component{
 
 
   deleteNote = NoteId => {
+    console.log(NoteId)
+    console.log(this.state.notes)
     const newNotes = this.state.notes.filter(note => note.id !== NoteId);
     this.setState({
       notes: newNotes
@@ -57,16 +59,23 @@ class App extends Component{
   
   
   componentDidMount(){
-    const url = "http://localhost:9090/db";
-    fetch(url)
-    .then(res => {
-      if(!res.ok) {
-        throw new Error(res.status)
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/notes`),
+      fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+    .then(([notesRes, foldersRes]) => {
+      if(!notesRes.ok) {
+        return notesRes.json().then(e => Promise.reject(e));
       }
-      return res.json()
+      if(!foldersRes.ok) {
+        return foldersRes.json().then(e => Promise.reject(e));
+      }
+      return Promise.all([notesRes.json(), foldersRes.json()]);
     })
-    .then(this.setData)
-    .catch(error => console.log(error))
+    .then(([notes, folders]) =>{
+      this.setState({notes,folders});
+    })
+    .catch(error => console.error(error));
   }
 
   render(){

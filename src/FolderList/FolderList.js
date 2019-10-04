@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 class FolderList extends Component{    
    static contextType = NoteContext;
     getFolder(noteId){
-        const note = this.context.notes.find(note => note.id === noteId) || {content: ''};
+        const note = this.context.notes.find(note => note.id == noteId) || {content: ''};
         const folderId = note.folderId;
         
         
@@ -22,7 +22,7 @@ class FolderList extends Component{
     const folderId = (!this.props.match.params.noteId) ? null : this.getFolder(this.props.match.params.noteId);
     
     const folders = (!folderId)? this.context.folders :
-    this.context.folders.filter(folder => folder.id === folderId);
+    this.context.folders.filter(folder => folder.id == folderId);
     
      
     const folderList = folders.map(folder => <li  className="folder" key={folder.id} data-index={folder.id}><NavLink key={folder.id} activeClassName="active" to={`/folder/${folder.id}`}>{folder.name}</NavLink></li>);

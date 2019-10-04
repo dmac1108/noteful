@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NoteContext from '../NoteContext';
 import './AddFolder.css'
 import FormValidationError from '../FormValidationError/FormValidationError';
+import config from '../config';
 
 class AddFolder extends Component {
 constructor(props){
@@ -26,7 +27,7 @@ handleCancel = () =>{
 
 handleSubmit = (e) => {
     e.preventDefault();
-    const postUrl = 'http://localhost:9090/folders';
+    const postUrl = `${config.API_ENDPOINT}/folders`
     fetch(postUrl,{
         method: 'POST',
         headers: {

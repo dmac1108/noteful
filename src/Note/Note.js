@@ -11,11 +11,11 @@ class Note extends Component{
 static contextType = NoteContext;
 
 deleteNote = (noteId, callback) => {
-  const deleteUrl = `${config.API_ENDPOINT}/notes/${noteId}`;
+  const deleteUrl = `${config.API_ENDPOINT}/api/notes/${noteId}`;
     fetch(deleteUrl,{
         method: 'DELETE',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
         },
     })
     .then(res => {

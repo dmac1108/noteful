@@ -27,11 +27,11 @@ handleCancel = () =>{
 
 handleSubmit = (e) => {
     e.preventDefault();
-    const postUrl = `${config.API_ENDPOINT}/folders`
+    const postUrl = `${config.API_ENDPOINT}/api/folders`
     fetch(postUrl,{
         method: 'POST',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
         },
         body: JSON.stringify(this.state),
     })

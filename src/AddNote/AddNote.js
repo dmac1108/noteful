@@ -53,11 +53,11 @@ class AddNote extends Component {
 
 handleSubmit = (e) => {
     e.preventDefault();
-    const postUrl = `${config.API_ENDPOINT}/notes`;
+    const postUrl = `${config.API_ENDPOINT}/api/notes`;
     fetch(postUrl,{
         method: 'POST',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
         },
         body: JSON.stringify(this.state),
     })
